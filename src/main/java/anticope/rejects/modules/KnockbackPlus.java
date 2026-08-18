@@ -2,7 +2,6 @@ package anticope.rejects.modules;
 
 import anticope.rejects.MeteorRejectsAddon;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
-import meteordevelopment.meteorclient.mixininterface.IPlayerInteractEntityC2SPacket;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -34,26 +33,12 @@ public class KnockbackPlus extends Module {
 
     @EventHandler
     private void onSendPacket(PacketEvent.Send event) {
-        if (event.packet instanceof ServerboundInteractPacket packet) {
-            packet.dispatch(new ServerboundInteractPacket.Handler() {
-                @Override
-                public void onInteraction(@NonNull InteractionHand interactionHand) {
-                }
+        if (event.packet instanceof ServerboundInteractPacket packet && mc.level != null) {
+            Entity entity = mc.level.getEntity(packet.entityId());
+            if (!(entity instanceof LivingEntity) || (entity != Modules.get().get(KillAura.class).getTarget() && ka.get())) return;
 
-                @Override
-                public void onInteraction(@NonNull InteractionHand interactionHand, @NonNull Vec3 vec3) {
-                }
-
-                @Override
-                public void onAttack() {
-                    Entity entity = ((IPlayerInteractEntityC2SPacket) packet).meteor$getEntity();
-                    if (!(entity instanceof LivingEntity) || (entity != Modules.get().get(KillAura.class).getTarget() && ka.get()))
-                        return;
-
-                    assert mc.player != null;
-                    mc.player.connection.send(new ServerboundPlayerCommandPacket(mc.player, ServerboundPlayerCommandPacket.Action.START_SPRINTING));
-                }
-            });
+            assert mc.player != null;
+            mc.player.connection.send(new ServerboundPlayerCommandPacket(mc.player, ServerboundPlayerCommandPacket.Action.START_SPRINTING));
         }
     }
 }

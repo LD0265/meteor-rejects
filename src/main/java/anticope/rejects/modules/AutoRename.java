@@ -129,15 +129,15 @@ public class AutoRename extends Module {
     private String getFirstItemName(ItemStack stack) {
         ItemContainerContents container = stack.get(DataComponents.CONTAINER);
         if (container != null) {
-            for (ItemStack item : container.nonEmptyItems()) {
-                return item.getHoverName().getString();
+            for (var item : container.nonEmptyItems()) {
+                return item.create().getHoverName().getString();
             }
         }
 
         BundleContents bundle = stack.get(DataComponents.BUNDLE_CONTENTS);
         if (bundle != null) {
-            for (ItemStack item : bundle.items()) {
-                return item.getHoverName().getString();
+            for (var item : bundle.items()) {
+                return item.create().getHoverName().getString();
             }
         }
         return "";

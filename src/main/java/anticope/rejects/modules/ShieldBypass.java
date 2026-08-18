@@ -13,6 +13,7 @@ import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.world.entity.Entity;
@@ -86,7 +87,7 @@ public class ShieldBypass extends Module {
 
             mc.getConnection().send(new ServerboundMovePlayerPacket.Pos(newPos.x(), newPos.y(), newPos.z(), true, false));
 
-            mc.getConnection().send(ServerboundInteractPacket.createAttackPacket(e, mc.player.isShiftKeyDown()));
+            mc.getConnection().send(new ServerboundInteractPacket(e.getId(), InteractionHand.MAIN_HAND, null, mc.player.isShiftKeyDown()));
             mc.getConnection().send(new ServerboundSwingPacket(mc.player.getUsedItemHand()));
             mc.player.resetOnlyAttackStrengthTicker();
 

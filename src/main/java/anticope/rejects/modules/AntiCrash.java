@@ -37,9 +37,9 @@ public class AntiCrash extends Module {
             }
             if (/* outside of world */ explodePos.x() > 30_000_000 || explodePos.y() > 30_000_000 || explodePos.z() > 30_000_000 || explodePos.x() < -30_000_000 || explodePos.y() < -30_000_000 || explodePos.z() < -30_000_000 ||
                     // too much knockback
-                    playerKnockback.x > 30_000_000 || playerKnockback.y > 30_000_000 || playerKnockback.z > 30_000_000
+                    playerKnockback.x() > 30_000_000 || playerKnockback.y() > 30_000_000 || playerKnockback.z() > 30_000_000
                     // knockback can be negative?
-                    || playerKnockback.x < -30_000_000 || playerKnockback.y < -30_000_000 || playerKnockback.z < -30_000_000
+                    || playerKnockback.x() < -30_000_000 || playerKnockback.y() < -30_000_000 || playerKnockback.z() < -30_000_000
             ) cancel(event);
         } else if (event.packet instanceof ClientboundLevelParticlesPacket packet) {
             // too many particles
@@ -47,12 +47,12 @@ public class AntiCrash extends Module {
         } else if (event.packet instanceof ClientboundPlayerPositionPacket packet) {
             Vec3 playerPos = packet.change().position();
             // out of world movement
-            if (playerPos.x > 30_000_000 || playerPos.y > 30_000_000 || playerPos.z > 30_000_000 || playerPos.x < -30_000_000 || playerPos.y < -30_000_000 || playerPos.z < -30_000_000)
+            if (playerPos.x() > 30_000_000 || playerPos.y() > 30_000_000 || playerPos.z() > 30_000_000 || playerPos.x() < -30_000_000 || playerPos.y() < -30_000_000 || playerPos.z() < -30_000_000)
                 cancel(event);
         } else if (event.packet instanceof ClientboundSetEntityMotionPacket packet) {
             // velocity
-            if (packet.getMovement().x > 1000 || packet.getMovement().y > 1000 || packet.getMovement().z > 1000
-                    || packet.getMovement().x < -1000 || packet.getMovement().y  < -1000 || packet.getMovement().z < -1000
+                    if (packet.movement().x() > 1000 || packet.movement().y() > 1000 || packet.movement().z() > 1000
+                        || packet.movement().x() < -1000 || packet.movement().y()  < -1000 || packet.movement().z() < -1000
             ) cancel(event);
         }
     }

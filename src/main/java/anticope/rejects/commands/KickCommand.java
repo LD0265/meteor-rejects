@@ -4,11 +4,13 @@ import com.mojang.blaze3d.Blaze3D;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.ClientboundDisconnectPacket;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.SystemUtils;
 
 public class KickCommand extends Command {
@@ -38,7 +40,7 @@ public class KickCommand extends Command {
     }
 
     @Override
-    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
+    public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {
         builder.then(literal("disconnect").executes(ctx -> {
             mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal("Disconnected via .kick command")));
             return SINGLE_SUCCESS;
@@ -48,7 +50,7 @@ public class KickCommand extends Command {
             return SINGLE_SUCCESS;
         }));
         builder.then(literal("hurt").executes(ctx -> {
-            mc.player.connection.send(ServerboundInteractPacket.createAttackPacket(mc.player, mc.player.isShiftKeyDown()));
+            mc.player.connection.send(new ServerboundInteractPacket(mc.player.getId(), InteractionHand.MAIN_HAND, Vec3.ZERO, mc.player.isShiftKeyDown()));
             return SINGLE_SUCCESS;
         }));
         builder.then(literal("chat").executes(ctx -> {
