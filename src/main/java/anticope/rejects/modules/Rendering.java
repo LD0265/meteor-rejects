@@ -29,7 +29,12 @@ public class Rendering extends Module {
 			.defaultValue(true)
             .onChanged(onChanged -> {
                 if(this.isActive()) {
-                    mc.levelRenderer.allChanged();
+                    mc.levelRenderer.invalidateCompiledGeometry(
+                        mc.level,
+                        mc.options,
+                        mc.gameRenderer.mainCamera(),
+                        mc.getBlockColors()
+                    );
                 }
             })
 			.build()
@@ -72,12 +77,22 @@ public class Rendering extends Module {
 
     @Override
     public void onActivate() {
-        mc.levelRenderer.allChanged();
+        mc.levelRenderer.invalidateCompiledGeometry(
+                        mc.level,
+                        mc.options,
+                        mc.gameRenderer.mainCamera(),
+                        mc.getBlockColors()
+                    );
     }
 
     @Override
     public void onDeactivate() {
-        mc.levelRenderer.allChanged();
+        mc.levelRenderer.invalidateCompiledGeometry(
+                        mc.level,
+                        mc.options,
+                        mc.gameRenderer.mainCamera(),
+                        mc.getBlockColors()
+                    );
     }
 
     public void onChanged(Shader s) {

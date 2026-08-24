@@ -24,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -53,7 +54,7 @@ public class ChestAura extends Module {
     private final Setting<List<BlockEntityType<?>>> blocks = sgGeneral.add(new StorageBlockListSetting.Builder()
             .name("blocks")
             .description("The blocks you open.")
-            .defaultValue(BlockEntityType.CHEST)
+            .defaultValue(BlockEntityTypes.CHEST)
             .build()
     );
 
@@ -106,7 +107,7 @@ public class ChestAura extends Module {
             }
         }
 
-        if (timer > 0 && mc.screen != null) return;
+        if (timer > 0 && mc.gui.screen() != null) return;
 
         for (BlockEntity block : Utils.blockEntities()) {
             if (!blocks.get().contains(block.getType())) continue;

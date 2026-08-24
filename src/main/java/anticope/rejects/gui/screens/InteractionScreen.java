@@ -85,12 +85,12 @@ public class InteractionScreen extends Screen {
         functions = new HashMap<>();
         functions.put("Stats", (Entity e) -> {
             closeScreen();
-            minecraft.setScreen(new StatsScreen(e));
+            minecraft.gui.setScreen(new StatsScreen(e));
         });
         switch (entity) {
             case Player playerEntity -> functions.put("Open Inventory", (Entity e) -> {
                 closeScreen();
-                minecraft.setScreen(new InventoryScreen((Player) e));
+                minecraft.gui.setScreen(new InventoryScreen((Player) e));
             });
             case AbstractHorse abstractHorseEntity -> functions.put("Open Inventory", (Entity e) -> {
                 closeScreen();
@@ -110,13 +110,13 @@ public class InteractionScreen extends Screen {
                 closeScreen();
                 ItemStack container = new ItemStack(Items.CHEST);
                 container.set(DataComponents.CUSTOM_NAME, e.getName());
-                minecraft.setScreen(new PeekScreen(container, getInventory(e)));
+                minecraft.gui.setScreen(new PeekScreen(container, getInventory(e)));
             });
         }
 
         functions.put("Spectate", (Entity e) -> {
             Minecraft.getInstance().setCameraEntity(e);
-            minecraft.gui.setOverlayMessage(Component.literal("Sneak to un-spectate."), true);
+            minecraft.gui.hud.setOverlayMessage(Component.literal("Sneak to un-spectate."), true);
             MeteorClient.EVENT_BUS.subscribe(shiftListener);
             closeScreen();
         });
@@ -158,7 +158,7 @@ public class InteractionScreen extends Screen {
                 var script = Compiler.compile(result);
                 try {
                     var section = MeteorStarscript.ss.run(script);
-                    minecraft.setScreen(new ChatScreen(section.text, false));
+                    minecraft.gui.setScreen(new ChatScreen(section.text, false));
                 } catch (StarscriptError err) {
                     MeteorStarscript.printChatError(err);
                 }
@@ -230,7 +230,7 @@ public class InteractionScreen extends Screen {
     }
 
     private void closeScreen() {
-        minecraft.setScreen(null);
+        minecraft.gui.setScreen(null);
     }
 
     public void onClose() {
@@ -239,7 +239,7 @@ public class InteractionScreen extends Screen {
         if (focusedString != null) {
             functions.get(focusedString).accept(this.entity);
         } else
-            minecraft.setScreen(null);
+            minecraft.gui.setScreen(null);
     }
 
     public boolean isPauseScreen() {

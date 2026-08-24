@@ -50,7 +50,7 @@ public class MeteorRoundedGuiTheme extends GuiTheme {
             .sliderMax(4)
             .onSliderRelease()
             .onChanged(aDouble -> {
-                if (mc.screen instanceof WidgetScreen) ((WidgetScreen) mc.screen).invalidate();
+                if (mc.gui.screen() instanceof WidgetScreen) ((WidgetScreen) mc.gui.screen()).invalidate();
             })
             .build()
     );
@@ -74,7 +74,7 @@ public class MeteorRoundedGuiTheme extends GuiTheme {
             .description("Hide HUD when in GUI.")
             .defaultValue(false)
             .onChanged(v -> {
-                if (mc.screen instanceof WidgetScreen) mc.options.hideGui = v;
+                if (mc.gui.screen() instanceof WidgetScreen) mc.gui.hud.toggle();
             })
             .build()
     );
@@ -417,5 +417,11 @@ public class MeteorRoundedGuiTheme extends GuiTheme {
         public SettingColor get(boolean pressed, boolean hovered) {
             return get(pressed, hovered, false);
         }
+    }
+
+    @Override
+    public boolean modulesHelpText() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'modulesHelpText'");
     }
 }

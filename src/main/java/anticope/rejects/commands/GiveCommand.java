@@ -6,6 +6,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
+import net.minecraft.advancements.predicates.entity.EntityTypePredicate;
 import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
@@ -15,6 +16,8 @@ import net.minecraft.nbt.DoubleTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -104,7 +107,7 @@ public class GiveCommand extends Command {
 
             var changes = DataComponentPatch.builder()
                     .set(DataComponents.CUSTOM_NAME, Component.literal(message))
-                    .set(DataComponents.ENTITY_DATA, TypedEntityData.of(EntityType.WITHER, tag))
+                    .set(DataComponents.ENTITY_DATA, TypedEntityData.of(EntityTypes.WITHER, tag))
                     .build();
             stack.applyComponentsAndValidate(changes);
 
@@ -151,7 +154,7 @@ public class GiveCommand extends Command {
 
         var changes = DataComponentPatch.builder()
                 .set(DataComponents.CUSTOM_NAME, Component.literal(message))
-                .set(DataComponents.ENTITY_DATA, TypedEntityData.of(EntityType.ARMOR_STAND, tag))
+                .set(DataComponents.ENTITY_DATA, TypedEntityData.of(EntityTypes.ARMOR_STAND, tag))
                 .build();
 
         stack.applyComponentsAndValidate(changes);

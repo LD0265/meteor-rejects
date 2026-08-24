@@ -117,12 +117,12 @@ public class AutoRename extends Module {
 
     private void renameItem(ItemStack s) {
         String setname = isContainerTarget(s) ? getFirstItemName(s) : name.get();
-        if (!(mc.screen instanceof AnvilScreen)) {
+        if (!(mc.gui.screen() instanceof AnvilScreen)) {
             error("Not anvil screen");
             toggle();
             return;
         }
-        var input = (EditBox) mc.screen.children().get(0);
+        var input = (EditBox) mc.gui.screen().children().get(0);
         input.setValue(setname);
     }
 

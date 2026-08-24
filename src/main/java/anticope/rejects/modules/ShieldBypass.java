@@ -41,7 +41,7 @@ public class ShieldBypass extends Module {
     @EventHandler
     private void onMouseButton(MouseClickEvent event) {
         if (Modules.get().isActive(KillAura.class)) return;
-        if (mc.screen == null && !mc.player.isUsingItem() && event.action == KeyAction.Press && event.button() == GLFW_MOUSE_BUTTON_LEFT) {
+        if (mc.gui.screen() == null && !mc.player.isUsingItem() && event.action == KeyAction.Press && event.button() == GLFW_MOUSE_BUTTON_LEFT) {
             if (mc.hitResult instanceof EntityHitResult result) {
                 bypass(result.getEntity(), event);
             }
